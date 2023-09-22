@@ -1,0 +1,99 @@
+*termguiattrhook.txt* Override cterm attributes with gui attribute
+
+████████╗███████╗██████╗ ███╗   ███╗  
+╚══██╔══╝██╔════╝██╔══██╗████╗_████║  
+██████████████████████████████████████
+   ██║   ██╔══╝  ██╔══██╗██║╚██╔╝██║  
+ __██║___███████╗██║__██║██║_╚═╝_██║__
+/_____/_____/_____/_____/_____/_____/_
+~~~~~~██████╗~~~██╗~~~██╗~~██╗~~~~~~~~
+~~~~██╔════╝~~~██║~~~██║~~██║~~~~~~~~~
+~~~██║~~███╗~~██║~~~██║~~██║~~~~~~~~~~
+~~██║~~~██║~~██║~~~██║~~██║~~~~~~~~~~~
+~╚██████╔╝~~╚██████╔╝~~██║~~~~~~~~~~~~
+██████████████████████████████████████
+█     ╗█        ╗        ╗      ╗█████
+  ╔══  ╗╚══  ╔══╝╚══  ╔══╝  ╔══  ╗████
+       ║███  ║██████  ║███      ╔╝████
+  ╔══  ║███  ║██████  ║███  ╔══  ╗████
+  ║██  ║███  ║██████  ║███  ║██  ║████
+╚═╝██╚═╝███╚═╝██████╚═╝███╚═╝██╚═╝████
+███  ███ █████████ █████████ ███    ██
+███  ███ ███   ███ ███   ███ ███  ███ 
+████████ ███   ███ ███   ███ ███████  
+███  ███ ███   ███ ███   ███ ███  ███ 
+███_ ███_█████████ █████████ ███__ ███
+/ _ \_/ _ \_/ _ \_/ _ \_/ _ \_/ _ \_/ 
+\/ \___/ \___/ \___/ \___/ \___/ \___/
+
+This plugin is used to override cterm attributes with gui attributes for all
+highlight groups. A workaround before 'termguiattr'.
+
+This plugin is designed for original Vim(i.e. not NeoVim) running in a
+graphics terminal. Used to solve the problem that after setting
+'termguicolors' in the graphics terminal, the font attribute still uses
+`cterm` instead of `gui`. Bram Moolenaar (R.I.P) added the 'termguiattr'
+option to the Todo list three years ago, but he and the community seem to have
+forgotten about it. This plugin is a workaround. When a future version of Vim
+supports the 'termguiattr' attribute, this plugin will no longer be needed.
+
+This plugin can, upon Vim startup, override all highlight groups `cterm`
+attributes with `gui` attributes and also supports automatic overriding when
+changing themes. However, if the highlight group is manually modified through
+a command, or if other plugins dynamically modify the highlight group,
+automatic overriding will not be triggered.
+
+Note that not all attributes may be displayed correctly in the terminal, such
+as |undercurl| and |strikethrough|. You may need to make the following
+settings in `~/.vimrc``. If it still doesn't work, the terminal or Vim may
+have a bug or not support it.
+>
+    " ~/.vimrc
+    let &t_Ts = "\e[9m"   " strikethrough
+    let &t_Te = "\e[29m"
+    let &t_Cs = "\e[4:3m" " undercurl
+    let &t_Ce = "\e[4:0m"
+<
+
+==============================================================================
+Commands~
+
+
+                                                            *:TermGuiAttrHook*
+Call the plugin manually
+
+
+==============================================================================
+Configuration~
+
+
+                                                    *g:termguiattrhook_enable*
+Enable the plugin. The default value is 1. If set to 0, the plugin will be 
+completely disabled.
+
+		`let g:termguiattrhook_enable = 1`
+
+
+                                                *g:termguiattrhook_on_startup*
+Called when Vim startup. The default value is 1. If set to 0, it will not be 
+called at startup.
+
+		`let g:termguiattrhook_on_startup = 1`
+
+                                     *g:termguiattrhook_on_colorscheme_change*
+Recall when colorscheme changes. The default value is 1. If set to 0, it will 
+not be called after colorscheme changes.
+
+		`let g:termguiattrhook_on_colorscheme_change = 1`
+
+                                             *g:termguiattrhook_show_call_log*
+Display the call log to `:messages`. The default value is 1. If set to 0, the
+log will not be displayed after the call.
+The log content is "TermGuiAttrHook: attributes gui -> cterm".
+
+		`let g:termguiattrhook_show_call_log = 1`
+
+
+==============================================================================
+ vim:tw=78:sw=8:ts=8:sts=8:noet:ft=help:norl:fo=roql:
+
